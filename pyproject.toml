@@ -23,6 +23,7 @@ dependencies = [
   "pydantic-settings>=2.2",
   "duckdb>=1.0",
   "plotly>=5.0",
+  "streamlit>=1.36",
 ]
 
 [project.optional-dependencies]

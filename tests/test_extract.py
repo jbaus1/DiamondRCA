@@ -35,7 +35,7 @@ def test_fetch_statcast_data_with_mock(monkeypatch):
     assert len(result) == 1
 
 
-def test_fetch_team_game_results_with_mock(monkeypatch):
+def test_fetch_team_game_results_with_mock(monkeypatch, recwarn):
     sample = pd.DataFrame(
         {
             "Date": ["Apr 01", "Apr 02"],
@@ -61,3 +61,4 @@ def test_fetch_team_game_results_with_mock(monkeypatch):
     assert expected_columns.issubset(result.columns)
     assert list(result["is_win"]) == [1, 0]
     assert list(result["is_loss"]) == [0, 1]
+    assert len(recwarn) == 0

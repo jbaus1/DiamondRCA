@@ -3,12 +3,37 @@
 from __future__ import annotations
 
 import logging
-from datetime import date
+from datetime import date, datetime
 
 import pandas as pd
 from pybaseball import batting_stats, pitching_stats, schedule_and_record, statcast
 
 logger = logging.getLogger(__name__)
+
+
+def _parse_schedule_date(value: object, season: int) -> pd.Timestamp | pd.NaT:
+    """Parse pybaseball schedule date strings without noisy inference warnings."""
+    raw = str(value).strip()
+    if not raw or raw.lower() == "nan":
+        return pd.NaT
+
+    cleaned = raw.split(",")[-1].strip()
+
+    for candidate, fmt in [
+        (cleaned, "%b %d"),
+        (raw, "%b %d %Y"),
+        (raw, "%Y-%m-%d"),
+        (raw, "%m/%d/%Y"),
+    ]:
+        try:
+            parsed = datetime.strptime(candidate, fmt)
+            if fmt == "%b %d":
+                parsed = parsed.replace(year=season)
+            return pd.Timestamp(parsed)
+        except ValueError:
+            continue
+
+    return pd.NaT
 
 
 def fetch_team_batting_data(season: int, team: str) -> pd.DataFrame:
@@ -87,7 +112,9 @@ def fetch_team_game_results(season: int, team: str = "NYM") -> pd.DataFrame:
             return df
 
         out = df.copy()
-        out["game_date"] = pd.to_datetime(out.get("Date"), errors="coerce")
+        out["game_date"] = out.get("Date", pd.Series(dtype=object)).map(
+            lambda value: _parse_schedule_date(value, season)
+        )
         out = out.loc[out["game_date"].notna()].copy()
 
         result_series = out.get("W/L", pd.Series(dtype=str)).astype(str).str.upper()

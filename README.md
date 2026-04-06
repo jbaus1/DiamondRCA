@@ -77,6 +77,12 @@ diamond_rca/
     test_collapse_definition.py
 ```
 
+
+## New in this scaffold
+
+- `fetch_team_game_results(season, team)` now assembles game-level outcomes (date, opponent, W/L, runs for/against) to power collapse-window detection workflows.
+- `RCAReport.to_markdown()` and `RCAReport.save_markdown()` now generate repeatable Markdown case-study reports.
+
 ## Setup
 
 ### 1) Create and activate a virtual environment

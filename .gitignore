@@ -1,0 +1,24 @@
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.py[cod]
+
+# Environment
+.env
+
+# Data artifacts (keep folders, ignore contents)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Generated figures
+reports/figures/*
+!reports/figures/.gitkeep
+
+# Tooling
+.ruff_cache/
+.coverage
+htmlcov/

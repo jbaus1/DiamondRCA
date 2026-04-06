@@ -1,0 +1,8 @@
+[project]
+name = "diamond-rca"
+python = "3.11"
+
+[commands]
+test = "pytest"
+lint = "python -m ruff check ."
+format = "python -m black ."

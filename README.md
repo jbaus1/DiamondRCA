@@ -98,6 +98,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+If `ruff` is still not available in your shell, install dev extras explicitly:
+
+```bash
+pip install -e ".[dev]"
+```
+
 ### 3) Install package in editable mode
 
 ```bash
@@ -121,8 +127,8 @@ pytest
 Run lint and format checks:
 
 ```bash
-ruff check .
-black --check .
+python -m ruff check .
+python -m black --check .
 ```
 
 Launch notebook:

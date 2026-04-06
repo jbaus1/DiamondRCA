@@ -4,5 +4,5 @@ python = "3.11"
 
 [commands]
 test = "pytest"
-lint = "ruff check ."
-format = "black ."
+lint = "python -m ruff check ."
+format = "python -m black ."

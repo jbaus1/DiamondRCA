@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diamond-rca"
+version = "0.1.0"
+description = "Root-cause analysis tooling for baseball team collapses."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Diamond RCA Contributors" }]
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.26",
+  "matplotlib>=3.8",
+  "jupyter>=1.0",
+  "pybaseball>=2.2",
+  "scipy>=1.11",
+  "scikit-learn>=1.4",
+  "pydantic>=2.6",
+  "pyyaml>=6.0",
+  "python-dotenv>=1.0",
+  "pydantic-settings>=2.2",
+  "duckdb>=1.0",
+  "plotly>=5.0",
+  "streamlit>=1.36",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "black>=24.0",
+  "ruff>=0.5",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E402"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"

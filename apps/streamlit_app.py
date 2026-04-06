@@ -6,13 +6,23 @@ business logic can move behind a future REST API for a React frontend.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import streamlit as st
 
-from diamond_rca.rca.fishbone import Fishbone, default_categories
-from diamond_rca.rca.five_whys import build_five_whys
-from diamond_rca.rca.framework import RCAReport
-from diamond_rca.ui.service import build_collapse_analysis
-from diamond_rca.viz.plots import plot_rolling_metric
+# Allow `streamlit run apps/streamlit_app.py` from the repo root without
+# requiring an editable install first.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SRC_PATH = PROJECT_ROOT / "src"
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
+
+from diamond_rca.rca.fishbone import Fishbone, default_categories  # noqa: E402
+from diamond_rca.rca.five_whys import build_five_whys  # noqa: E402
+from diamond_rca.rca.framework import RCAReport  # noqa: E402
+from diamond_rca.ui.service import build_collapse_analysis  # noqa: E402
+from diamond_rca.viz.plots import plot_rolling_metric  # noqa: E402
 
 st.set_page_config(page_title="Diamond RCA", layout="wide")
 st.title("Diamond RCA: Baseball Collapse Explorer")
@@ -50,7 +60,7 @@ if run_button:
         y_col="rolling_win_pct",
         title=f"{team} {season} Rolling Win% ({window}-game)",
     )
-    st.pyplot(fig, use_container_width=True)
+    st.pyplot(fig, width="stretch")
 
     st.subheader("Game table")
     cols = [
@@ -63,7 +73,7 @@ if run_button:
         "is_collapse_window",
     ]
     display_cols = [col for col in cols if col in chart_df.columns]
-    st.dataframe(chart_df[display_cols], use_container_width=True)
+    st.dataframe(chart_df[display_cols], width="stretch")
 
     st.subheader("RCA draft (Markdown)")
     problem = st.text_input(

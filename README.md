@@ -81,6 +81,7 @@ diamond_rca/
 ## New in this scaffold
 
 - `fetch_team_game_results(season, team)` now assembles game-level outcomes (date, opponent, W/L, runs for/against) to power collapse-window detection workflows.
+- `fetch_team_game_results(season, team)` now uses the MLB Stats API first for game schedules and falls back to `pybaseball.schedule_and_record()` if needed.
 - `RCAReport.to_markdown()` and `RCAReport.save_markdown()` now generate repeatable Markdown case-study reports.
 
 ## Setup
